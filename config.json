@@ -1,0 +1,7 @@
+{
+    "databaseHost": "localhost",
+    "databaseUser": "root",
+    "databaseName": "test",
+    "databasePassword": "<your db password>",
+    "secretkey": "<your secret key>"
+}
