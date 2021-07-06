@@ -1,19 +1,19 @@
 const db = require('../db/db');
 
 function findUserByEmail(email,callback){
-    db.execute("select * from Users where email = ?;",[email],function(err,rows,fields){
+    db.execute("select userid, username, email from Users where email = ?;",[email],function(err,rows,fields){
         callback(rows);
     });
 }
 
 function findUserById(id,callback){
-    db.execute("select * from Users where id = ?;",[id],function(err,rows,fields){
+    db.execute("select userid, username, email from Users where id = ?;",[id],function(err,rows,fields){
         callback(rows);
     });
 }
 
 function createUser(user,callback){
-    db.execute("insert into Users(username,birthDate,userpass,email) values(?,?,?,?);",[user.username,user.birthDate,user.userpass,user.email],function(err){
+    db.execute("insert into Users(username,email,password) values(?,?,?);",[user.username,user.email,user.password],function(err){
         callback(err);
     });
 }
