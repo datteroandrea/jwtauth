@@ -11,22 +11,22 @@ app.get('/', isAuthenticated, (req, res) => {
         if (err) {
             res.send({ "redirect": "/login" });
         } else {
-            res.json(user);
+            res.json(user[0]);
         }
     });
 });
 
 app.post('/login', (req, res) => {
     var email = req.body.email;
-    var userpass = req.body.userpass;
+    var userpass = req.body.password;
     users.findUserByEmail(email, function (user) {
+        console.log(user);
         if(user[0]){
-            var pass = bcryptjs.compareSync(userpass, user[0].userpass);
+            var pass = bcryptjs.compareSync(userpass, user[0].password);
             if (pass) {
-                jwt.sign({ user }, config.secretkey, { expiresIn: '365 days' }, (err, token) => {
-                    return res.json({
-                        token
-                    });
+                console.log("OK");
+                jwt.sign({ user }, config.secretkey, { expiresIn: '7 days' }, (err, token) => {
+                    return res.send(token);
                 });
             } else {
                 return res.send({ "status": 401 });
@@ -38,9 +38,10 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
+    console.log(req.body);
     var user = req.body;
-    user.userpass = bcryptjs.hashSync(user.userpass, 10);
-    users.createUser(req.body, function (err) {
+    user.password = bcryptjs.hashSync(user.password, 10);
+    users.createUser(user, function (err) {
         if (err) {
             res.send({ "status": 409 });
         } else {
