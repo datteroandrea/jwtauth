@@ -1,7 +1,7 @@
 const db = require('../db/db');
 
 function findUserByEmail(email,callback){
-    db.execute("select userid, username, email from Users where email = ?;",[email],function(err,rows,fields){
+    db.execute("select * from Users where email = ?;",[email],function(err,rows,fields){
         callback(rows);
     });
 }
