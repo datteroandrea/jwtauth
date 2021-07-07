@@ -20,9 +20,9 @@ app.post('/login', (req, res) => {
     var email = req.body.email;
     var userpass = req.body.password;
     users.findUserByEmail(email, function (user) {
-        console.log(user);
-        if(user[0]){
-            var pass = bcryptjs.compareSync(userpass, user[0].password);
+        user = user[0];
+        if(user){
+            var pass = bcryptjs.compareSync(userpass, user.password);
             if (pass) {
                 console.log("OK");
                 jwt.sign({ user }, config.secretkey, { expiresIn: '7 days' }, (err, token) => {
